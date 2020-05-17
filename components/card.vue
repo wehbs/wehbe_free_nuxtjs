@@ -21,7 +21,10 @@
               longer.
             </p>
             <p class="card-text">
-              <small class="text-muted">Last updated 3 mins ago</small>
+              {{ i.email }}
+            </p>
+            <p class="card-text">
+              <small class="text-muted">{{ i.date }}</small>
             </p>
           </div>
         </div>
