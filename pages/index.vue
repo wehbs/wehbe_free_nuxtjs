@@ -1,8 +1,8 @@
 <template>
   <div class="d-flex flex-column h-100">
     <div class="container">
-      <card />
-      <h1 v-if="postData[0]">{{ postData[0].email }}</h1>
+      <card v-if="postData[0]" v-bind:postData="postData"></card>
+      <!-- <h1 v-if="postData[0]">{{ postData[0].email }}</h1> -->
       <h1 v-else>Loading...</h1>
     </div>
   </div>
@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      email: '',
+      email: 'Test',
       first_name: '',
       last_name: '',
       linkedin: '',
@@ -28,12 +28,11 @@ export default {
       search: ''
     }
   },
-  mounted() {
+  beforeMount() {
     this.readPosts()
   },
   methods: {
     readPosts() {
-      // const postData = []
       db.collection('posts')
         .get()
         .then((querySnapshot) => {
@@ -46,9 +45,8 @@ export default {
               linkedin: doc.data().linkedin
             })
             console.log(doc.id, ' => ', doc.data())
-            console.log(this.postData[0].email)
+            console.log(this.postData[0])
           })
-          // return postData
         })
         .catch((error) => {
           console.log('Error getting documents: ', error)

@@ -1,13 +1,15 @@
 <template>
-  <div class="row justify-content-center pt-2">
-    <div class="card mb-3" style="max-width: 540px;">
+  <div class="row justify-content-center">
+    <div class="card mt-2" style="max-width: 540px;" v-for="i in postData" :key="i.id">
       <div class="row no-gutters">
         <div class="col-md-4">
           <!-- <img src="..." class="card-img" alt="..."> -->
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
+            <h5 class="card-title">
+              {{ i.first_name + ' ' + i.last_name }}
+            </h5>
             <p class="card-text">
               This is a wider card with supporting text below as a natural
               lead-in to additional content. This content is a little bit
@@ -25,7 +27,10 @@
 
 <script>
 export default {
-  name: 'Card'
+  name: 'Card',
+  props: {
+    postData: String
+  }
 }
 </script>
 
