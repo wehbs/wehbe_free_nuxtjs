@@ -1,28 +1,61 @@
 <template>
-  <div class="d-flex flex-column h-100 wrapper">
+  <div class="d-flex flex-column h-100">
     <div class="container">
-      <NavBar />
-      <h1>THIS IS THE HOME PAGE.</h1>
+      <card />
+      <h1 v-if="postData[0]">{{ postData[0].email }}</h1>
+      <h1 v-else>Loading...</h1>
     </div>
-    <Footer />
   </div>
 </template>
 
 <script>
-import NavBar from '../components/NavBar.vue'
-import Footer from '../components/Footer.vue'
+import card from '../components/card.vue'
+const db = firebase.firestore()
 
 export default {
-  name: 'Home',
+  name: 'Index',
   components: {
-    NavBar,
-    Footer
+    card
+  },
+  data() {
+    return {
+      email: '',
+      first_name: '',
+      last_name: '',
+      linkedin: '',
+      date: new Date().toISOString().slice(0, 10),
+      postData: [],
+      search: ''
+    }
+  },
+  mounted() {
+    this.readPosts()
+  },
+  methods: {
+    readPosts() {
+      // const postData = []
+      db.collection('posts')
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            this.postData.push({
+              id: doc.id,
+              email: doc.data().email,
+              first_name: doc.data().first_name,
+              last_name: doc.data().last_name,
+              linkedin: doc.data().linkedin
+            })
+            console.log(doc.id, ' => ', doc.data())
+            console.log(this.postData[0].email)
+          })
+          // return postData
+        })
+        .catch((error) => {
+          console.log('Error getting documents: ', error)
+        })
+    }
   }
 }
 </script>
 
-<style scoped>
-.wrapper {
-  min-height: 100vh;
-}
-</style>
+<style scoped></style>

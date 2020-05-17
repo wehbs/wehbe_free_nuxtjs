@@ -19,6 +19,7 @@ module.exports = {
   rules: {},
 
   globals: {
-    firebase: false
+    firebase: false,
+    db: false
   }
 }
