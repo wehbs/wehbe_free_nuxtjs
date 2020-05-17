@@ -1,25 +1,27 @@
 <template>
   <div class="d-flex flex-column h-100">
-    <div class="container">
-      <card v-if="postData[0]" v-bind:postData="postData"></card>
-      <!-- <h1 v-if="postData[0]">{{ postData[0].email }}</h1> -->
-      <h1 v-else>Loading...</h1>
+    <div v-if="postData[0]" class="container">
+      <postform v-on:callCreatePost="createPost"></postform>
+      <card :post-data="postData"></card>
     </div>
+    <h1 v-else>Loading...</h1>
   </div>
 </template>
 
 <script>
 import card from '../components/card.vue'
+import postform from '../components/postform.vue'
 const db = firebase.firestore()
 
 export default {
   name: 'Index',
   components: {
-    card
+    card,
+    postform
   },
   data() {
     return {
-      email: 'Test',
+      email: '',
       first_name: '',
       last_name: '',
       linkedin: '',
@@ -52,6 +54,27 @@ export default {
           console.log('Error getting documents: ', error)
         })
     }
+  },
+  createPost(email, first_name, last_name, linkedin, date) {
+    db.collection('posts')
+      .add({
+        email: email,
+        first_name: first_name,
+        last_name: last_name,
+        linkedin: linkedin,
+        date: date
+      })
+      .then(function(docRef) {
+        console.log('Document written with ID: ', docRef.id)
+        this.readPosts()
+      })
+      .catch((error) => {
+        console.error('Error writing document: ', error)
+      })
+    this.email = ''
+    this.first_name = ''
+    this.last_name = ''
+    this.linkedin = ''
   }
 }
 </script>

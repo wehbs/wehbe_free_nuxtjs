@@ -1,6 +1,11 @@
 <template>
   <div class="row justify-content-center">
-    <div class="card mt-2" style="max-width: 540px;" v-for="i in postData" :key="i.id">
+    <div
+      v-for="i in postData"
+      :key="i.id"
+      class="card mt-2"
+      style="max-width: 540px;"
+    >
       <div class="row no-gutters">
         <div class="col-md-4">
           <!-- <img src="..." class="card-img" alt="..."> -->
