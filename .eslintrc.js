@@ -20,6 +20,7 @@ module.exports = {
 
   globals: {
     firebase: false,
-    db: false
+    db: false,
+    $: false
   }
 }

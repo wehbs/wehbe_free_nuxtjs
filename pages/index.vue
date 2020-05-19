@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex flex-column h-100">
-    <div v-if="postData[0]" class="container">
+  <div class="container">
+    <div v-if="postData[0]">
       <button
         type="button"
         class="btn btn-primary mt-2"
@@ -109,6 +109,7 @@
         </div>
       </div>
     </div>
+    <!-- End Modal -->
   </div>
 </template>
 
@@ -123,7 +124,7 @@ export default {
   },
   data() {
     return {
-      email: '',
+      email: 'test',
       first_name: '',
       last_name: '',
       linkedin: '',
@@ -136,28 +137,45 @@ export default {
     this.readPosts()
   },
   methods: {
+    // readPosts() {
+    //   db.collection('posts')
+    //     .get()
+    //     .then((querySnapshot) => {
+    //       querySnapshot.forEach((doc) => {
+    //         this.postData.push({
+    //           id: doc.id,
+    //           email: doc.data().email,
+    //           first_name: doc.data().first_name,
+    //           last_name: doc.data().last_name,
+    //           linkedin: doc.data().linkedin,
+    //           date: doc.data().date
+    //         })
+    //         console.log(doc.id, ' => ', doc.data())
+    //         console.log(this.postData[0])
+    //       })
+    //     })
+    //     .catch((error) => {
+    //       console.log('Error getting documents: ', error)
+    //     })
+    // },
     readPosts() {
-      db.collection('posts')
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            this.postData.push({
-              id: doc.id,
-              email: doc.data().email,
-              first_name: doc.data().first_name,
-              last_name: doc.data().last_name,
-              linkedin: doc.data().linkedin,
-              date: doc.data().date
-            })
-            console.log(doc.id, ' => ', doc.data())
-            console.log(this.postData[0])
+      const vm = this
+      db.collection('posts').onSnapshot(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          vm.postData.push({
+            id: doc.id,
+            email: doc.data().email,
+            first_name: doc.data().first_name,
+            last_name: doc.data().last_name,
+            linkedin: doc.data().linkedin,
+            date: doc.data().date
           })
+          console.log(doc.id, ' => ', doc.data())
+          // console.log(vm.date)
         })
-        .catch((error) => {
-          console.log('Error getting documents: ', error)
-        })
+      })
     },
-    createPost(email, first_name, last_name, linkedin, date) {
+    createPost() {
       db.collection('posts')
         .add({
           email: this.email,
