@@ -124,7 +124,7 @@ export default {
   },
   data() {
     return {
-      email: 'test',
+      email: '',
       first_name: '',
       last_name: '',
       linkedin: '',
@@ -137,27 +137,6 @@ export default {
     this.readPosts()
   },
   methods: {
-    // readPosts() {
-    //   db.collection('posts')
-    //     .get()
-    //     .then((querySnapshot) => {
-    //       querySnapshot.forEach((doc) => {
-    //         this.postData.push({
-    //           id: doc.id,
-    //           email: doc.data().email,
-    //           first_name: doc.data().first_name,
-    //           last_name: doc.data().last_name,
-    //           linkedin: doc.data().linkedin,
-    //           date: doc.data().date
-    //         })
-    //         console.log(doc.id, ' => ', doc.data())
-    //         console.log(this.postData[0])
-    //       })
-    //     })
-    //     .catch((error) => {
-    //       console.log('Error getting documents: ', error)
-    //     })
-    // },
     readPosts() {
       const vm = this
       db.collection('posts').onSnapshot(function(querySnapshot) {
