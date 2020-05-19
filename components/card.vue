@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-for="i in postData" :key="i.id" class="row justify-content-center">
-      <div class="card mt-1" style="max-width: 540px;">
+    <div v-for="i in postData" :key="i.id">
+      <div class="card mb-2">
         <div class="row no-gutters">
           <div class="col-md-4">
             <img
@@ -45,6 +45,8 @@ export default {
 
 <style>
 .card {
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  border: none;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 2px 3px rgba(0, 0, 0, 0.2);
 }
 </style>
