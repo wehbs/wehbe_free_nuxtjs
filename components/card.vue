@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="i in postData" :key="i.id">
-      <div class="card mb-2">
+      <div class="card mb-2" style="max-width: 40rem">
         <div class="row no-gutters">
           <div class="col-md-4">
             <img
@@ -18,11 +18,9 @@
               <p class="card-text">
                 {{ i.email }}
               </p>
-              <p class="card-text">
-                <a :href="i.linkedin" target="_blank">
-                  LinkedIn
-                </a>
-              </p>
+              <a :href="i.linkedin" target="_blank" class="card-link">
+                LinkedIn
+              </a>
               <p class="card-text">
                 <small class="text-muted">{{ i.date }}</small>
               </p>

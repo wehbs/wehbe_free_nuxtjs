@@ -1,16 +1,33 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-md-5">
+    <div class="col-md-auto">
       <div v-if="postData[0]">
-        <button
-          type="button"
-          class="btn btn-primary mt-2 mb-2"
-          data-toggle="modal"
-          data-target="#postCandidate"
-        >
-          Post Candidate
-        </button>
+        <div class="row">
+          <div class="col-4">
+            <button
+              type="button"
+              class="btn btn-primary my-2"
+              data-toggle="modal"
+              data-target="#postCandidate"
+            >
+              Post Candidate
+            </button>
+          </div>
 
+          <div class="col-8">
+            <form class="form-inline my-2">
+              <input
+                class="form-control mr-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-success" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
         <card :post-data="postData"></card>
       </div>
       <h1 v-else>Loading...</h1>
