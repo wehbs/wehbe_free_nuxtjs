@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-lg-5">
+    <div class="col-md-5">
       <div v-if="postData[0]">
         <button
           type="button"
@@ -141,18 +141,31 @@ export default {
   methods: {
     readPosts() {
       const vm = this
-      db.collection('posts').onSnapshot(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          vm.postData.push({
-            id: doc.id,
-            email: doc.data().email,
-            first_name: doc.data().first_name,
-            last_name: doc.data().last_name,
-            linkedin: doc.data().linkedin,
-            date: doc.data().date
-          })
-          console.log(doc.id, ' => ', doc.data())
-          // console.log(vm.date)
+      db.collection('posts').onSnapshot(function(snapshot) {
+        snapshot.docChanges().forEach(function(change) {
+          if (change.type === 'added') {
+            vm.postData.push({
+              id: change.doc.id,
+              email: change.doc.data().email,
+              first_name: change.doc.data().first_name,
+              last_name: change.doc.data().last_name,
+              linkedin: change.doc.data().linkedin,
+              date: change.doc.data().date
+            })
+          }
+          if (change.type === 'modified') {
+            console.log(change.doc.id, ' => ', change.doc.data())
+          }
+          if (change.type === 'removed') {
+            const elementPos = vm.postData
+              .map(function(i) {
+                return i.id
+              })
+              .indexOf(change.doc.id)
+            if (elementPos !== -1) {
+              vm.postData.splice(elementPos, 1)
+            }
+          }
         })
       })
     },
@@ -172,8 +185,6 @@ export default {
         .catch((error) => {
           console.error('Error writing document: ', error)
         })
-      this.postData = []
-      this.readPosts()
       this.email = ''
       this.first_name = ''
       this.last_name = ''

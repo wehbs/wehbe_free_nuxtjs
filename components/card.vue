@@ -16,12 +16,12 @@
                 {{ i.first_name + ' ' + i.last_name }}
               </h5>
               <p class="card-text">
-                This is a wider card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
+                {{ i.email }}
               </p>
               <p class="card-text">
-                {{ i.email }}
+                <a :href="i.linkedin" target="_blank">
+                  LinkedIn
+                </a>
               </p>
               <p class="card-text">
                 <small class="text-muted">{{ i.date }}</small>
