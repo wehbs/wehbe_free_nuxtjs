@@ -1,9 +1,9 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-md-auto">
+    <div class="col-sm-auto">
       <div v-if="postData[0]">
         <div class="row">
-          <div class="col-4">
+          <div class="col-5">
             <button
               type="button"
               class="btn btn-primary my-2"
@@ -13,141 +13,36 @@
               Post Candidate
             </button>
           </div>
-
-          <div class="col-8">
-            <form class="form-inline my-2">
-              <input
-                class="form-control mr-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
+          <div class="col-7">
+            <input
+              class="form-control my-2"
+              type="search"
+              placeholder="Search Candidates"
+              aria-label="Search"
+            />
           </div>
         </div>
         <card :post-data="postData"></card>
       </div>
       <h1 v-else>Loading...</h1>
-      <!-- Modal -->
-      <div
-        id="postCandidate"
-        class="modal fade"
-        data-backdrop="static"
-        data-keyboard="false"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 id="staticBackdropLabel" class="modal-title">
-                Post Candidate
-              </h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form id="postForm" @submit.prevent="createPost">
-                <div class="form-row">
-                  <div class="col-md-6 mb-3">
-                    <label for="firstName">First name</label>
-                    <input
-                      id="firstName"
-                      v-model="first_name"
-                      type="text"
-                      class="form-control"
-                      required
-                    />
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="lastName">Last name</label>
-                    <input
-                      id="lastName"
-                      v-model="last_name"
-                      type="text"
-                      class="form-control"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="col-md-6 mb-3">
-                    <label for="email">Email address</label>
-                    <input
-                      id="email"
-                      v-model="email"
-                      type="email"
-                      class="form-control"
-                      required
-                    />
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="linkedIn">LinkedIn URL</label>
-                    <input
-                      id="linkedIn"
-                      v-model="linkedin"
-                      type="text"
-                      class="form-control"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="form-check">
-                    <input
-                      id="invalidCheck2"
-                      class="form-check-input"
-                      type="checkbox"
-                      value=""
-                      required
-                    />
-                    <label class="form-check-label" for="invalidCheck2">
-                      Agree to terms and conditions
-                    </label>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary" form="postForm">
-                Post
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <modal />
     </div>
-    <!-- End Modal -->
   </div>
 </template>
 
 <script>
 import card from '../components/card.vue'
+import modal from '../components/modal.vue'
 const db = firebase.firestore()
 
 export default {
   name: 'Index',
   components: {
-    card
+    card,
+    modal
   },
   data() {
     return {
-      email: '',
-      first_name: '',
-      last_name: '',
-      linkedin: '',
-      date: new Date().toISOString().slice(0, 10),
       postData: [],
       search: ''
     }
@@ -185,27 +80,6 @@ export default {
           }
         })
       })
-    },
-    createPost() {
-      db.collection('posts')
-        .add({
-          email: this.email,
-          first_name: this.first_name,
-          last_name: this.last_name,
-          linkedin: this.linkedin,
-          date: this.date
-        })
-        .then(function(docRef) {
-          console.log('Document written with ID: ', docRef.id)
-          $('#postCandidate').modal('hide')
-        })
-        .catch((error) => {
-          console.error('Error writing document: ', error)
-        })
-      this.email = ''
-      this.first_name = ''
-      this.last_name = ''
-      this.linkedin = ''
     }
   }
 }

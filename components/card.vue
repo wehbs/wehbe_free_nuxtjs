@@ -41,7 +41,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .card {
   border-radius: 2px;
   border: none;
