@@ -1,6 +1,6 @@
 <template>
-  <div class="row">
-    <div class="col-5">
+  <div class="row mx-1">
+    <div class="col-sm-6">
       <button
         type="button"
         class="btn btn-primary my-2"
@@ -10,7 +10,7 @@
         Post Candidate
       </button>
     </div>
-    <div class="col-7">
+    <div class="col-sm-6">
       <input
         class="form-control my-2"
         type="search"
