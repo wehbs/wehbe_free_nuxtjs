@@ -1,32 +1,30 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-sm-auto">
-      <div v-if="postData[0]">
-        <div class="row">
-          <div class="col-5">
-            <button
-              type="button"
-              class="btn btn-primary my-2"
-              data-toggle="modal"
-              data-target="#postCandidate"
-            >
-              Post Candidate
-            </button>
-          </div>
-          <div class="col-7">
-            <input
-              class="form-control my-2"
-              type="search"
-              placeholder="Search Candidates"
-              aria-label="Search"
-            />
-          </div>
+    <div v-if="postData[0]" class="col-sm-auto">
+      <div class="row">
+        <div class="col-5">
+          <button
+            type="button"
+            class="btn btn-primary my-2"
+            data-toggle="modal"
+            data-target="#postCandidate"
+          >
+            Post Candidate
+          </button>
         </div>
-        <card :post-data="postData"></card>
+        <div class="col-7">
+          <input
+            class="form-control my-2"
+            type="search"
+            placeholder="Search Candidates"
+            aria-label="Search"
+          />
+        </div>
       </div>
-      <h1 v-else>Loading...</h1>
-      <modal />
+      <card :post-data="postData"></card>
     </div>
+    <h1 v-else>Loading...</h1>
+    <modal />
   </div>
 </template>
 
