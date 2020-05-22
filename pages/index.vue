@@ -1,26 +1,7 @@
 <template>
   <div class="row justify-content-center">
     <div v-if="postData[0]" class="col-sm-auto">
-      <div class="row">
-        <div class="col-5">
-          <button
-            type="button"
-            class="btn btn-primary my-2"
-            data-toggle="modal"
-            data-target="#postCandidate"
-          >
-            Post Candidate
-          </button>
-        </div>
-        <div class="col-7">
-          <input
-            class="form-control my-2"
-            type="search"
-            placeholder="Search Candidates"
-            aria-label="Search"
-          />
-        </div>
-      </div>
+      <post-search />
       <card :post-data="postData"></card>
     </div>
     <h1 v-else>Loading...</h1>
@@ -31,13 +12,15 @@
 <script>
 import card from '../components/card.vue'
 import modal from '../components/modal.vue'
+import postSearch from '../components/postSearch.vue'
 const db = firebase.firestore()
 
 export default {
   name: 'Index',
   components: {
     card,
-    modal
+    modal,
+    postSearch
   },
   data() {
     return {
