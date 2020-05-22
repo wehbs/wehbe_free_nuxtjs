@@ -12,11 +12,12 @@ html {
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 body {
   background-color: #f5f5f5;
   overflow-x: hidden;
+  position: relative;
 }
 </style>
