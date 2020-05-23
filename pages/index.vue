@@ -35,11 +35,11 @@ export default {
     readPosts() {
       const vm = this
       db.collection('posts')
-        .orderBy('timestamp', 'desc')
+        .orderBy('timestamp')
         .onSnapshot(function(snapshot) {
           snapshot.docChanges().forEach(function(change) {
             if (change.type === 'added') {
-              vm.postData.push({
+              vm.postData.unshift({
                 id: change.doc.id,
                 email: change.doc.data().email,
                 first_name: change.doc.data().first_name,
