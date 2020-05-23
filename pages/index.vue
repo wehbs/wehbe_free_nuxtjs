@@ -43,6 +43,7 @@ export default {
               first_name: change.doc.data().first_name,
               last_name: change.doc.data().last_name,
               linkedin: change.doc.data().linkedin,
+              refer_pitch: change.doc.data().refer_pitch,
               date: change.doc.data().date
             })
           }

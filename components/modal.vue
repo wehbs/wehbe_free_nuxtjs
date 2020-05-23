@@ -72,6 +72,17 @@
               </div>
             </div>
             <div class="form-group">
+              <label for="referPitch">Why refer you?</label>
+              <textarea
+                id="referPitch"
+                v-model="refer_pitch"
+                type="text"
+                class="form-control"
+                rows="3"
+                required
+              ></textarea>
+            </div>
+            <div class="form-group">
               <div class="form-check">
                 <input
                   id="invalidCheck2"
@@ -109,7 +120,11 @@ export default {
       first_name: '',
       last_name: '',
       linkedin: '',
-      date: new Date().toISOString().slice(0, 10)
+      refer_pitch: '',
+      date:
+        new Date().toLocaleDateString() +
+        ' at ' +
+        new Date().toLocaleTimeString()
     }
   },
   methods: {
@@ -120,6 +135,7 @@ export default {
           first_name: this.first_name,
           last_name: this.last_name,
           linkedin: this.linkedin,
+          refer_pitch: this.refer_pitch,
           date: this.date
         })
         .then(function(docRef) {
@@ -133,6 +149,7 @@ export default {
       this.first_name = ''
       this.last_name = ''
       this.linkedin = ''
+      this.refer_pitch = ''
     }
   }
 }
