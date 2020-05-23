@@ -1,11 +1,9 @@
 <template>
-  <div class="row">
+  <div class="row vh-100">
     <div v-if="postData[0]" class="col-sm-auto mx-auto">
       <post-search />
       <card :post-data="postData"></card>
     </div>
-
-    <!-- <div v-else class="col-sm-auto m-auto"> -->
     <svg
       v-else
       class="m-auto"
@@ -87,8 +85,6 @@
         ></animateTransform>
       </g>
     </svg>
-    <!-- </div> -->
-
     <modal />
   </div>
 </template>
