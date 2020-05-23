@@ -120,11 +120,7 @@ export default {
       first_name: '',
       last_name: '',
       linkedin: '',
-      refer_pitch: '',
-      date:
-        new Date().toLocaleDateString() +
-        ' at ' +
-        new Date().toLocaleTimeString()
+      refer_pitch: ''
     }
   },
   methods: {
@@ -136,7 +132,7 @@ export default {
           last_name: this.last_name,
           linkedin: this.linkedin,
           refer_pitch: this.refer_pitch,
-          date: this.date
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
         })
         .then(function(docRef) {
           console.log('Document written with ID: ', docRef.id)

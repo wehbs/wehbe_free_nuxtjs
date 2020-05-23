@@ -34,34 +34,39 @@ export default {
   methods: {
     readPosts() {
       const vm = this
-      db.collection('posts').onSnapshot(function(snapshot) {
-        snapshot.docChanges().forEach(function(change) {
-          if (change.type === 'added') {
-            vm.postData.push({
-              id: change.doc.id,
-              email: change.doc.data().email,
-              first_name: change.doc.data().first_name,
-              last_name: change.doc.data().last_name,
-              linkedin: change.doc.data().linkedin,
-              refer_pitch: change.doc.data().refer_pitch,
-              date: change.doc.data().date
-            })
-          }
-          if (change.type === 'modified') {
-            console.log(change.doc.id, ' => ', change.doc.data())
-          }
-          if (change.type === 'removed') {
-            const elementPos = vm.postData
-              .map(function(i) {
-                return i.id
+      db.collection('posts')
+        .orderBy('timestamp', 'desc')
+        .onSnapshot(function(snapshot) {
+          snapshot.docChanges().forEach(function(change) {
+            if (change.type === 'added') {
+              vm.postData.push({
+                id: change.doc.id,
+                email: change.doc.data().email,
+                first_name: change.doc.data().first_name,
+                last_name: change.doc.data().last_name,
+                linkedin: change.doc.data().linkedin,
+                refer_pitch: change.doc.data().refer_pitch,
+                date: change.doc
+                  .data()
+                  .timestamp.toDate()
+                  .toDateString()
               })
-              .indexOf(change.doc.id)
-            if (elementPos !== -1) {
-              vm.postData.splice(elementPos, 1)
             }
-          }
+            if (change.type === 'modified') {
+              console.log(change.doc.id, ' => ', change.doc.data())
+            }
+            if (change.type === 'removed') {
+              const elementPos = vm.postData
+                .map(function(i) {
+                  return i.id
+                })
+                .indexOf(change.doc.id)
+              if (elementPos !== -1) {
+                vm.postData.splice(elementPos, 1)
+              }
+            }
+          })
         })
-      })
     }
   }
 }
