@@ -47,7 +47,7 @@ export default {
                 linkedin: change.doc.data().linkedin,
                 refer_pitch: change.doc.data().refer_pitch,
                 date: change.doc
-                  .data()
+                  .data({ serverTimestamps: 'estimate' })
                   .timestamp.toDate()
                   .toDateString()
               })
