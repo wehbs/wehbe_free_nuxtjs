@@ -114,20 +114,21 @@ export default {
     },
     searchPosts() {
       const vm = this
+      const noCapsSearch = vm.search.toLowerCase().trim()
+
       db.collection('posts')
-        .where('company', '==', vm.search)
+        .where('company', '==', noCapsSearch)
         .orderBy('timestamp')
+        // .limit(2)
         .get()
         .then(function(querySnapshot) {
-          // if (vm.search === '') {
-          //   vm.postData = []
-          //   this.readPosts()
-          // }
-
+          if (vm.search === '') {
+            vm.postData = []
+            vm.readPosts()
+          }
           if (querySnapshot.empty === false) {
             vm.postData = []
           }
-
           querySnapshot.forEach(function(doc) {
             vm.postData.unshift({
               id: doc.id,
@@ -142,7 +143,43 @@ export default {
                 .toDateString()
             })
 
-            // doc.data() is never undefined for query doc snapshots
+            // const lastVisible =
+            //   querySnapshot.docs[querySnapshot.docs.length - 1]
+            // console.log('last', lastVisible)
+
+            // function lazyLoad() {
+            //   const scrollIsAtTheBottom =
+            //     document.documentElement.scrollHeight - window.innerHeight ===
+            //     window.scrollY
+            //   if (scrollIsAtTheBottom) {
+            //     ;(function() {
+            //       db.collection('posts')
+            //         .where('company', '==', noCapsSearch)
+            //         .orderBy('timestamp')
+            //         .startAfter(lastVisible)
+            //         .limit(2)
+            //         .get()
+            //         .then(function(querySnapshot) {
+            //           querySnapshot.forEach(function(doc) {
+            //             vm.postData.unshift({
+            //               id: doc.id,
+            //               email: doc.data().email,
+            //               first_name: doc.data().first_name,
+            //               last_name: doc.data().last_name,
+            //               linkedin: doc.data().linkedin,
+            //               refer_pitch: doc.data().refer_pitch,
+            //               date: doc
+            //                 .data({ serverTimestamps: 'estimate' })
+            //                 .timestamp.toDate()
+            //                 .toDateString()
+            //             })
+            //           })
+            //         })
+            //     })()
+            //   }
+            // }
+            // window.addEventListener('scroll', lazyLoad)
+
             console.log(doc.id, ' => ', doc.data())
           })
         })
