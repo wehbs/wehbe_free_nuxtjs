@@ -2,7 +2,45 @@
   <div>
     <div v-if="postData[0]" class="row">
       <div class="col-sm-auto mx-auto">
-        <post-search />
+        <div class="card my-2" style="max-width: 40rem">
+          <div class="card-body">
+            <div class="row no-gutters">
+              <div class="col-sm-3">
+                <button
+                  type="button"
+                  class="btn btn-primary my-2"
+                  data-toggle="modal"
+                  data-target="#postCandidate"
+                >
+                  Post Candidate
+                </button>
+              </div>
+              <div class="col-sm-9">
+                <div class="input-group my-2">
+                  <input
+                    id="search"
+                    v-model="search"
+                    type="text"
+                    class="form-control"
+                    placeholder="Search Candidates"
+                    aria-label="Search"
+                    aria-describedby="button-addon"
+                  />
+                  <div class="input-group-append">
+                    <button
+                      id="search"
+                      class="btn btn-outline-primary"
+                      type="button"
+                      @click="searchPosts"
+                    >
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <card :post-data="postData"></card>
       </div>
     </div>
@@ -18,7 +56,6 @@
 <script>
 import card from '../components/card.vue'
 import modal from '../components/modal.vue'
-import postSearch from '../components/postSearch.vue'
 import loadingIcon from '../components/loadingIcon.vue'
 const db = firebase.firestore()
 
@@ -27,13 +64,12 @@ export default {
   components: {
     card,
     modal,
-    postSearch,
     loadingIcon
   },
   data() {
     return {
-      postData: [],
-      search: ''
+      search: '',
+      postData: []
     }
   },
   mounted() {
@@ -75,9 +111,53 @@ export default {
             }
           })
         })
+    },
+    searchPosts() {
+      const vm = this
+      db.collection('posts')
+        .where('company', '==', vm.search)
+        .orderBy('timestamp')
+        .get()
+        .then(function(querySnapshot) {
+          // if (vm.search === '') {
+          //   vm.postData = []
+          //   this.readPosts()
+          // }
+
+          if (querySnapshot.empty === false) {
+            vm.postData = []
+          }
+
+          querySnapshot.forEach(function(doc) {
+            vm.postData.unshift({
+              id: doc.id,
+              email: doc.data().email,
+              first_name: doc.data().first_name,
+              last_name: doc.data().last_name,
+              linkedin: doc.data().linkedin,
+              refer_pitch: doc.data().refer_pitch,
+              date: doc
+                .data({ serverTimestamps: 'estimate' })
+                .timestamp.toDate()
+                .toDateString()
+            })
+
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, ' => ', doc.data())
+          })
+        })
+        .catch(function(error) {
+          console.log('Error getting documents: ', error)
+        })
     }
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.card {
+  border-radius: 2px;
+  border: none;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+</style>

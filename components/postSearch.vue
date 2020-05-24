@@ -15,6 +15,8 @@
         <div class="col-sm-9">
           <div class="input-group my-2">
             <input
+              id="search"
+              v-model="search"
               type="text"
               class="form-control"
               placeholder="Search Candidates"
@@ -22,18 +24,16 @@
               aria-describedby="button-addon"
             />
             <div class="input-group-append">
-              <button class="btn btn-outline-primary" type="button" id="search">
+              <button
+                id="search"
+                class="btn btn-outline-primary"
+                type="button"
+                @submit.prevent="searchPosts"
+              >
                 <i class="fas fa-search"></i>
               </button>
             </div>
           </div>
-
-          <!-- <input
-            class="form-control my-2"
-            type="search"
-            placeholder="Search Candidates"
-            aria-label="Search"
-          /> -->
         </div>
       </div>
     </div>
@@ -42,7 +42,49 @@
 
 <script>
 export default {
-  name: 'postSearch'
+  name: 'PostSearch',
+  data() {
+    return {}
+  },
+  methods: {
+    searchPosts() {
+      const vm = this
+      db.collection('posts')
+        .where('company', '==', vm.search)
+        .orderBy('timestamp')
+        .onSnapshot(function(snapshot) {
+          snapshot.docChanges().forEach(function(change) {
+            if (change.type === 'added') {
+              vm.postData.unshift({
+                id: change.doc.id,
+                email: change.doc.data().email,
+                first_name: change.doc.data().first_name,
+                last_name: change.doc.data().last_name,
+                linkedin: change.doc.data().linkedin,
+                refer_pitch: change.doc.data().refer_pitch,
+                date: change.doc
+                  .data({ serverTimestamps: 'estimate' })
+                  .timestamp.toDate()
+                  .toDateString()
+              })
+            }
+            if (change.type === 'modified') {
+              console.log(change.doc.id, ' => ', change.doc.data())
+            }
+            if (change.type === 'removed') {
+              const elementPos = vm.postData
+                .map(function(i) {
+                  return i.id
+                })
+                .indexOf(change.doc.id)
+              if (elementPos !== -1) {
+                vm.postData.splice(elementPos, 1)
+              }
+            }
+          })
+        })
+    }
+  }
 }
 </script>
 
