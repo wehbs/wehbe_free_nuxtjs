@@ -7,7 +7,10 @@ export default {
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'user-scalable=no, width=device-width, initial-scale=1' },
+      {
+        name: 'viewport',
+        content: 'user-scalable=no, width=device-width, initial-scale=1'
+      },
       {
         hid: 'description',
         name: 'description',
@@ -48,6 +51,10 @@ export default {
           'sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI',
         crossorigin: 'anonymous',
         body: true
+      },
+      {
+        src: 'https://kit.fontawesome.com/b26088df12.js',
+        crossorigin: 'anonymous'
       },
       { src: '/__/firebase/7.14.4/firebase-app.js', body: true },
       { src: '/__/firebase/7.14.4/firebase-analytics.js', body: true },
