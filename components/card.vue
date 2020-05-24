@@ -20,7 +20,6 @@
                   <h6 class="card-subtitle mb-2 text-muted">lorem ipsum</h6>
                 </div>
               </div>
-
               <div class="row">
                 <div class="col">
                   <p class="card-text">
